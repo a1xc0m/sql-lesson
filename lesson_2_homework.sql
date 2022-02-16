@@ -40,7 +40,7 @@ limit 1
 
 -- Задание 7: Вывести название корабля (ship) и класс (class) последнего потопленного корабля
 --
-select ship, class
+select outcomes.ship, classes.class
 from outcomes
 join classes
 on outcomes.ship = classes.class
@@ -48,11 +48,11 @@ where (result = 'sunk')
 
 -- Задание 8: Вывести все потопленные корабли, у которых калибр орудий не менее 16, и которые потоплены. Вывод: ship, class
 --
---select ship, class 
---from outcomes
---join classes
---on outcomes.ship = classes.class
---where (bore >= 16) and (result = 'sunk')
+select outcomes.ship, classes.class 
+from outcomes
+join classes
+on outcomes.ship = classes.class
+where (bore >= 16) and (result = 'sunk')
 
 -- Задание 9: Вывести все классы кораблей, выпущенные США (таблица classes, country = 'USA'). Вывод: class
 --
@@ -62,12 +62,8 @@ where (country = 'USA')
 
 -- Задание 10: Вывести все корабли, выпущенные США (таблица classes & ships, country = 'USA'). Вывод: name, class
 --
---select name, class
---from classes
---join ships
---on classes.class = ships.name
---where (country = 'USA')
-
-
-
-
+select ships.name, classes.class
+from classes
+join ships
+on classes.class = ships.name
+where (country = 'USA')
