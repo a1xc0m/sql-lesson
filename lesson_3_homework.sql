@@ -21,12 +21,12 @@ union
 select classes.class, 0
 from classes
 
----------------------------------
+---
 
 select *
 from outcomes, ships
 
----------------------------------
+---
 
 select a.class, sum(a.count)
 from
@@ -55,8 +55,6 @@ group by a.class
 --task2
 --Корабли: Для каждого класса определите год, когда был спущен на воду первый корабль этого класса. Если год спуска на воду головного корабля неизвестен, определите минимальный год спуска на воду кораблей этого класса. 
 --Вывести: класс, год.
-
-
 select classes.class, a.year
 from classes
 join 
@@ -67,7 +65,20 @@ join
 ) a
 on classes.class = a.class
 
---------------------------------
+---
+
+with min_launch as 
+(
+	select class, min(launched) as year
+	from ships
+	group by class
+) 
+select classes.class, min_launch as year
+from classes
+join min_launch
+on classes.class = min_launch.class
+
+---
 
 select a.class, name, launched years
 from
@@ -78,27 +89,7 @@ from
 	on classes.class = ships.class
 ) a
 
---------------------------------
-
-select launched,
-case when launched = (select max(launched) from ships)
-	then launched
-	else 0
-end flag
-from ships
-
----------------------------------
-
-select *
-from
-(
-	select *
-	from classes
-	join ships
-	on classes.class = ships.name	
-)
-
---------------------------------
+---
 
 --task3
 --Корабли: Для классов, имеющих потери в виде потопленных кораблей и не менее 3 кораблей в базе данных, вывести имя класса и число потопленных кораблей.
